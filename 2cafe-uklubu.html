@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Кафе У клуба</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500;600&family=Russo+One&display=swap" rel="stylesheet">
+<style>
+  /* Tilda Sans — через официальный CDN Tilda */
+  @font-face {
+    font-family: 'Tilda Sans';
+    src: url('https://static.tildacdn.com/fonts/TildaSans/TildaSans-Regular.woff2') format('woff2');
+    font-weight: 400; font-style: normal; font-display: swap;
+  }
+  @font-face {
+    font-family: 'Tilda Sans';
+    src: url('https://static.tildacdn.com/fonts/TildaSans/TildaSans-Medium.woff2') format('woff2');
+    font-weight: 500; font-style: normal; font-display: swap;
+  }
+  @font-face {
+    font-family: 'Tilda Sans';
+    src: url('https://static.tildacdn.com/fonts/TildaSans/TildaSans-Light.woff2') format('woff2');
+    font-weight: 300; font-style: normal; font-display: swap;
+  }
+  /* Old Soviet — подключите свой файл, пока используем Russo One как замену */
+  /* Jikharev — подключите свой файл, пока используем Cormorant Garamond Italic */
+
+/* ── ШРИФТОВЫЕ НАЗНАЧЕНИЯ ────────────────── */
+
+/* Обычный текст — Tilda Sans */
+body { font-family: var(--font-body); }
+
+/* Old Soviet (Russo One) — заголовки */
+.about-title,
+.product-name,
+.product-price,
+.event-date-num,
+.events-month,
+.section-title,
+h1, h2, h3 {
+  font-family: var(--font-old-soviet);
+  font-weight: 400;
+}
+
+/* event-date-day — Tilda Sans, small */
+.event-date-day {
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  font-weight: 300;
+}
+
+/* Jikharev — курсивные декоративные элементы */
+.about-tagline,
+.filter-tab-decorative {
+  font-family: var(--font-jikharev);
+  font-style: italic;
+}
+
+/* ── About section ─────────────────────────────── */
+.about-section {
+  background: var(--color-surface);
+  padding: var(--space-16) var(--space-8) 0;
+  position: relative;
+  overflow: visible;
+  z-index: 1;
+}
+.about-inner {
+  max-width: 860px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+.about-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-xs);
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+  font-weight: 500;
+  margin-bottom: var(--space-5);
+  justify-content: center;
+}
+.about-badge svg { flex-shrink: 0; }
+.about-title {
+  font-family: var(--font-old-soviet);
+  font-size: clamp(1.3rem, 2.8vw, 2.2rem);
+  font-weight: 400;
+  letter-spacing: .03em;
+  line-height: 1.35;
+  color: var(--color-primary);
+  margin-bottom: var(--space-6);
+  max-width: 700px;
+}
+.about-text {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  font-weight: 300;
+  line-height: 1.75;
+  max-width: 56ch;
+  margin: 0 auto var(--space-2);
+}
+.about-tagline {
+  font-family: var(--font-jikharev);
+  font-style: italic;
+  font-size: clamp(1rem, 1.5vw, 1.3rem);
+  color: var(--color-primary);
+  margin-top: var(--space-5);
+  align-self: flex-end;
+  margin-right: 2%;
+}
+
+/* ── Крутящаяся тарелка ────────────────────────── */
+.about-plate-wrap {
+  /* Контейнер: ширина секции, overflow:visible чтобы тарелка выходила вниз */
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: var(--space-10);
+  position: relative;
+  z-index: 1;
+  /* Отрицательный margin-bottom «втягивает» следующий блок поверх тарелки */
+  margin-bottom: calc(-1 * clamp(160px, 26vw, 320px));
+}
+.about-plate-img {
+  width: clamp(320px, 52vw, 660px);
+  height: clamp(320px, 52vw, 660px);
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 20px 60px oklch(0.2 0.02 60 / 0.18);
+  /* Бесконечное плавное вращение */
+  animation: spin-plate 20s linear infinite;
+  flex-shrink: 0;
+  display: block;
+}
+
+</style>
+<style>
+:root {
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-body: 'Tilda Sans', 'Jost', 'Helvetica Neue', sans-serif;
+  --font-old-soviet: 'Russo One', 'Cormorant Garamond', Georgia, serif;
+  --font-jikharev: 'Cormorant Garamond', Georgia, serif; /* замените на Jikharev */
+  --text-xs:   clamp(0.75rem,  0.7rem  + 0.25vw, 0.875rem);
+  --text-sm:   clamp(0.875rem, 0.8rem  + 0.35vw, 1rem);
+  --text-base: clamp(1rem,     0.95rem + 0.25vw, 1.125rem);
+  --text-lg:   clamp(1.125rem, 1rem    + 0.75vw, 1.5rem);
+  --text-xl:   clamp(1.5rem,   1.2rem  + 1.25vw, 2.25rem);
+  --text-2xl:  clamp(2rem,     1.2rem  + 2.5vw,  3.5rem);
+  --space-1:.25rem;--space-2:.5rem;--space-3:.75rem;--space-4:1rem;
+  --space-5:1.25rem;--space-6:1.5rem;--space-8:2rem;--space-10:2.5rem;
+  --space-12:3rem;--space-16:4rem;--space-20:5rem;--space-24:6rem;
+  --color-bg:#f5f0e8;
+  --color-surface:#faf7f2;
+  --color-surface-offset:#ede8de;
+  --color-border:#cfc8b5;
+  --color-text:#2a2218;
+  --color-text-muted:#7a7060;
+  --color-text-faint:#b8ad9e;
+  --color-primary:#8b6c3e;
+  --color-primary-hover:#6e5230;
+  --color-gold:#c9a227;
+  --color-dark:#1a1510;
+  --radius-sm:.375rem;--radius-md:.5rem;--radius-lg:.75rem;
+  --radius-xl:1rem;--radius-full:9999px;
+  --shadow-sm:0 1px 2px rgba(40,30,10,.08);
+  --shadow-md:0 4px 16px rgba(40,30,10,.12);
+  --shadow-lg:0 12px 40px rgba(40,30,10,.18);
+  --transition:180ms cubic-bezier(0.16,1,0.3,1);
+  --site-max:1440px;
+  --content-default:1100px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+body{font-family:var(--font-body);font-size:var(--text-base);color:var(--color-text);background:var(--color-bg);overflow-x:hidden}
+img{display:block;max-width:100%;height:auto}
+ul{list-style:none}
+button{cursor:pointer;background:none;border:none;font:inherit}
+a{text-decoration:none;color:inherit}
+a,button{transition:color var(--transition),background var(--transition),opacity var(--transition)}
+
+/* === SITE WRAPPER 1440px === */
+.site-wrapper{
+  max-width:var(--site-max);
+  margin:0 auto;
+  box-shadow:0 0 60px rgba(0,0,0,.15);
+  overflow:hidden;
+  background:var(--color-bg);
+}
+
+/* === HEADER === */
+.site-header{
+  position:fixed;top:0;left:50%;transform:translateX(-50%);
+  width:100%;max-width:var(--site-max);z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:var(--space-4) var(--space-8);
+  transition:background var(--transition),padding var(--transition);
+}
+.site-header.scrolled{
+  background:rgba(26,21,16,.92);backdrop-filter:blur(14px);
+  padding:var(--space-3) var(--space-8);
+}
+.nav-links{display:flex;gap:var(--space-8)}
+.nav-links a{font-size:var(--text-sm);font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.85)}
+.nav-links a:hover{color:#fff}
+.header-info{display:flex;align-items:center;gap:var(--space-6);font-size:var(--text-xs);color:rgba(255,255,255,.7)}
+.header-phone{font-weight:600;color:rgba(255,255,255,.9)}
+.logo-header{position:absolute;left:50%;transform:translateX(-50%);display:flex;align-items:center}
+.logo-header img{height:46px;width:auto}
+
+/* === HERO === */
+.hero{
+  position:relative;min-height:100dvh;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;overflow:hidden;
+}
+.hero-bg{
+  position:absolute;inset:0;
+  background:url('./img/header-hero-bg.jpg') center/cover no-repeat;
+}
+.hero-bg::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(to bottom,rgba(15,10,5,.5) 0%,rgba(15,10,5,.35) 50%,rgba(15,10,5,.68) 100%);
+}
+.hero-content{position:relative;z-index:1;padding:var(--space-8)}
+.hero-logo-img{max-height:clamp(120px,22vw,260px);width:auto;margin:0 auto var(--space-8)}
+.hero-tagline{font-size:var(--text-base);color:rgba(255,255,255,.78);max-width:52ch;margin:0 auto var(--space-10);line-height:1.75;font-weight:300;letter-spacing:.03em}
+.hero-actions{display:flex;gap:var(--space-4);justify-content:center;flex-wrap:wrap}
+.btn-outline-white{padding:var(--space-3) var(--space-8);border:1px solid rgba(255,255,255,.6);color:#fff;font-size:var(--text-sm);letter-spacing:.1em;text-transform:uppercase;font-weight:500;border-radius:var(--radius-sm);transition:all var(--transition)}
+.btn-outline-white:hover{background:rgba(255,255,255,.15);border-color:#fff}
+.btn-gold{padding:var(--space-3) var(--space-8);background:var(--color-primary);color:#fff;font-size:var(--text-sm);letter-spacing:.1em;text-transform:uppercase;font-weight:500;border-radius:var(--radius-sm);transition:all var(--transition)}
+.btn-gold:hover{background:var(--color-primary-hover)}
+.hero-scroll-hint{
+  position:absolute;bottom:var(--space-8);left:50%;transform:translateX(-50%);
+  color:rgba(255,255,255,.45);font-size:var(--text-xs);letter-spacing:.1em;text-transform:uppercase;
+  z-index:1;display:flex;flex-direction:column;align-items:center;gap:var(--space-2);
+  animation:bounce 2s ease-in-out infinite;
+}
+@keyframes bounce{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(6px)}}
+
+/* ============================================================
+   ABOUT — тарелка по центру, нижняя половина скрыта overflow
+   ============================================================ */
+.about-section{
+  background:var(--color-surface);
+  /* Нет нижнего padding — тикер вплотную перекрывает тарелку */
+  padding:var(--space-24) var(--space-8) 0;
+  position:relative;
+  /* overflow:hidden обрезает тарелку снизу */
+  overflow:hidden;
+}
+.about-inner-text{
+  /* Текстовая часть — по центру, ограниченная ширина */
+  max-width:760px;margin:0 auto;
+  text-align:center;
+  padding-bottom:var(--space-12);
+}
+.about-badge{
+  display:inline-flex;align-items:center;gap:var(--space-2);
+  font-size:var(--text-xs);letter-spacing:.15em;text-transform:uppercase;
+  color:var(--color-primary);font-weight:600;margin-bottom:var(--space-6);
+}
+.about-badge img{width:30px;height:30px}
+.about-title{
+  font-family:var(--font-display);font-size:var(--text-2xl);
+  font-weight:500;line-height:1.25;margin-bottom:var(--space-6);
+}
+.about-text{color:var(--color-text-muted);line-height:1.8;font-weight:300;margin-bottom:var(--space-3)}
+.about-tagline{font-family:var(--font-display);font-style:italic;font-size:var(--text-lg);color:var(--color-primary);margin-top:var(--space-4)}
+
+/* Тарелка — по центру, выступает вниз за край секции */
+.plate-outer{
+  display:flex;justify-content:center;
+  /* Тарелка выступает ровно наполовину своей высоты вниз */
+  margin-top: var(--space-8);
+  /* Смещаем вниз так, чтобы тикер перекрывал нижнюю половину */
+  margin-bottom: calc(-1 * clamp(140px, 20vw, 240px));
+}
+@keyframes spin-plate{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+
+/* === TICKER STRIP === */
+/* z-index выше about, перекрывает нижнюю часть тарелки */
+.ticker-strip{
+  position:relative;z-index:30;
+  background:#c9a227; /* золотой фон как на макете */
+  color:#2a2218;
+  padding:var(--space-3) 0;overflow:hidden;
+}
+.ticker-track{
+  display:flex;white-space:nowrap;
+  animation:ticker 30s linear infinite;
+}
+.ticker-item{
+  display:inline-flex;align-items:center;gap:var(--space-4);
+  padding:0 var(--space-10);font-size:var(--text-sm);
+  letter-spacing:.06em;text-transform:uppercase;font-weight:500;
+}
+.ticker-icon{width:22px;height:22px;flex-shrink:0}
+@keyframes ticker{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+/* === OUR SPACE === */
+.space-section{
+  position:relative;min-height:70vh;
+  display:flex;align-items:center;overflow:hidden;
+}
+.space-bg{
+  position:absolute;inset:0;
+  background:url('./img/Our-space-bg.jpg') center/cover no-repeat;
+}
+.space-bg::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(15,10,5,.72) 0%,rgba(15,10,5,.28) 100%);
+}
+.space-card{
+  position:relative;z-index:1;
+  background:rgba(250,247,242,.95);backdrop-filter:blur(8px);
+  max-width:480px;padding:var(--space-10);border-radius:var(--radius-xl);
+  margin-left:8%;box-shadow:var(--shadow-lg);
+}
+.space-card-label{font-size:var(--text-xs);letter-spacing:.15em;text-transform:uppercase;color:var(--color-primary);font-weight:600;margin-bottom:var(--space-4)}
+.space-card-title{font-family:var(--font-display);font-size:var(--text-xl);color:var(--color-text);margin-bottom:var(--space-4);line-height:1.3}
+.space-nav{display:flex;gap:var(--space-2);margin-top:var(--space-6)}
+.space-nav-btn{width:40px;height:40px;border-radius:50%;border:1px solid var(--color-border);color:var(--color-text);display:flex;align-items:center;justify-content:center;transition:all var(--transition)}
+.space-nav-btn:hover{background:var(--color-primary);border-color:var(--color-primary);color:#fff}
+
+/* === MENU / PRODUCTS === */
+.menu-section{
+  padding:var(--space-16) var(--space-8) var(--space-24);
+  background:var(--color-bg);
+}
+/* Section header — выравнивание ВЛЕВО как на макете */
+.section-header{
+  max-width:var(--content-default);
+  margin:0 auto var(--space-8);
+  text-align:left;
+}
+.section-badge{display:none} /* скрыт — заменён на section-title */
+.section-title{
+  font-family:var(--font-display);
+  font-size:clamp(1.8rem, 3vw, 2.8rem);
+  color:var(--color-text);
+  margin-bottom:var(--space-2);
+  font-weight:500;
+  line-height:1.2;
+}
+.section-sub{
+  color:var(--color-text-muted);
+  font-weight:300;
+  font-size:var(--text-sm);
+}
+
+/* Filter tabs — влево, 2 строки, без justify:center */
+.filter-tabs{
+  max-width:var(--content-default);
+  margin:0 auto var(--space-10);
+  display:flex;
+  flex-wrap:wrap;
+  gap:var(--space-2);
+  justify-content:flex-start;
+  align-items:center;
+}
+.filter-tab{
+  padding:var(--space-2) var(--space-4);
+  border-radius:var(--radius-sm);
+  border:1px solid var(--color-border);
+  font-size:var(--text-sm);
+  color:var(--color-text-muted);
+  font-weight:400;
+  cursor:pointer;
+  background:transparent;
+  transition:all var(--transition);
+  line-height:1.4;
+}
+.filter-tab:hover{
+  border-color:var(--color-primary);
+  color:var(--color-primary);
+}
+.filter-tab.active{
+  background:var(--color-primary);
+  border-color:var(--color-primary);
+  color:#fff;
+  font-weight:500;
+}
+/* Декоративный таб «очень вкусно» — курсив, золотой, без рамки */
+.filter-tab-decorative{
+  border:none;
+  background:transparent;
+  font-family:var(--font-display);
+  font-style:italic;
+  font-size:var(--text-base);
+  color:var(--color-gold);
+  font-weight:400;
+  cursor:default;
+  padding:var(--space-2) var(--space-2);
+  pointer-events:none;
+}
+.products-grid{max-width:var(--content-default);margin:0 auto;display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:var(--space-6)}
+.product-card{background:var(--color-surface);border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow-sm);transition:box-shadow var(--transition),transform var(--transition)}
+.product-card:hover{box-shadow:var(--shadow-md);transform:translateY(-3px)}
+.product-img-wrap{aspect-ratio:4/3;overflow:hidden}
+.product-img-wrap img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease}
+.product-card:hover .product-img-wrap img{transform:scale(1.05)}
+.product-body{padding:var(--space-4) var(--space-5) var(--space-5)}
+.product-name{font-family:var(--font-display);font-size:var(--text-lg);font-weight:500;margin-bottom:var(--space-1);line-height:1.3}
+.product-meta{font-size:var(--text-xs);color:var(--color-text-faint);margin-bottom:var(--space-3)}
+.product-price{font-size:var(--text-lg);font-weight:600;color:var(--color-primary)}
+
+/* ============================================================
+   SLIDER — ПОСЛЕ menu-section
+   ============================================================ */
+.slider-section{overflow:hidden;background:var(--color-dark)}
+.slider-track{
+  display:flex;
+  animation:slide-anim 28s linear infinite;
+}
+.slider-track:hover{animation-play-state:paused}
+.slide-img{flex-shrink:0;width:340px;height:260px;object-fit:cover}
+@keyframes slide-anim{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+/* === CLOSING BLOCK === */
+.closing-section{
+  position:relative;min-height:60vh;
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;text-align:center;
+}
+.closing-bg{
+  position:absolute;inset:0;
+  background:url('./img/closing-block.jpg') center/cover no-repeat;
+}
+.closing-bg::after{content:'';position:absolute;inset:0;background:rgba(15,10,5,.62)}
+.closing-content{position:relative;z-index:1;padding:var(--space-8)}
+.closing-title{font-family:var(--font-display);font-size:var(--text-2xl);color:#fff;margin-bottom:var(--space-4);font-style:italic}
+.closing-sub{color:rgba(255,255,255,.75);font-size:var(--text-base);font-weight:300;margin-bottom:var(--space-8)}
+.closing-details{display:flex;gap:var(--space-12);justify-content:center;flex-wrap:wrap;margin-top:var(--space-8)}
+.closing-item{color:rgba(255,255,255,.75);font-size:var(--text-sm)}
+.closing-item strong{display:block;color:#fff;margin-bottom:var(--space-1)}
+
+/* === FOOTER === */
+.site-footer{background:#1a1510;color:rgba(255,255,255,.7);padding:0}
+.footer-top{display:flex;align-items:center;justify-content:space-between;padding:var(--space-8) var(--space-10);border-bottom:1px solid rgba(255,255,255,.08);flex-wrap:wrap;gap:var(--space-4)}
+.footer-logo{display:flex;flex-direction:column;line-height:1}
+.footer-logo-kafe{font-family:var(--font-body);font-size:var(--text-xs);letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:2px}
+.footer-logo-name{font-family:var(--font-display);font-size:clamp(1.8rem,3vw,2.6rem);font-style:italic;color:#fff;font-weight:400;line-height:1}
+.footer-nav{display:flex;gap:var(--space-8);flex-wrap:wrap}
+.footer-nav a{font-size:var(--text-sm);color:rgba(255,255,255,.75);font-weight:400;transition:color var(--transition)}
+.footer-nav a:hover{color:#fff}
+.footer-contacts{padding:var(--space-10) var(--space-10) var(--space-8);border-bottom:1px solid rgba(255,255,255,.08)}
+.footer-contacts-title{font-family:var(--font-old-soviet);font-size:clamp(1.3rem,2.5vw,1.9rem);color:var(--color-gold);font-weight:400;margin-bottom:var(--space-2);letter-spacing:.03em}
+.footer-contacts-sub{font-size:var(--text-sm);color:rgba(255,255,255,.5);font-weight:300;margin-bottom:var(--space-8)}
+.footer-contacts-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--space-8);max-width:900px}
+.footer-col-label{font-size:var(--text-xs);color:rgba(255,255,255,.4);font-weight:400;margin-bottom:var(--space-2);letter-spacing:.05em}
+.footer-col-value{font-size:var(--text-base);color:rgba(255,255,255,.85);font-weight:400}
+.footer-col-note{font-size:var(--text-sm);color:rgba(255,255,255,.5);font-weight:300;line-height:1.6;margin-bottom:var(--space-1)}
+.footer-telegram-link{display:inline-block;font-size:var(--text-sm);color:var(--color-gold);font-weight:400;text-decoration:underline;text-underline-offset:3px;transition:color var(--transition)}
+.footer-telegram-link:hover{color:#fff}
+.footer-bottom{display:flex;justify-content:space-between;align-items:center;padding:var(--space-4) var(--space-10);font-size:var(--text-xs);color:rgba(255,255,255,.3);flex-wrap:wrap;gap:var(--space-3)}
+.footer-bottom a{color:rgba(255,255,255,.3)}
+.footer-bottom a:hover{color:rgba(255,255,255,.6)}
+.map-section{height:400px}
+.map-section iframe{width:100%;height:100%;border:none;display:block}
+
+/* === MOBILE === */
+@media(max-width:900px){
+  .about-inner-text{padding-bottom:var(--space-8)}
+  .footer-inner{grid-template-columns:1fr 1fr}
+  .space-card{margin:var(--space-4);max-width:100%}
+  .nav-links,.header-info{display:none}
+}
+@media(max-width:480px){
+  .footer-inner{grid-template-columns:1fr}
+  .closing-details{gap:var(--space-6)}
+}
+
+/* === EVENTS / АФИША === */
+.events-section {
+  background: #1e1a13;
+  padding: var(--space-16) var(--space-8) var(--space-20);
+}
+.events-inner {
+  max-width: var(--content-default);
+  margin: 0 auto;
+}
+.events-badge {
+  display: inline-flex; align-items: center; gap: var(--space-2);
+  font-size: var(--text-xs); letter-spacing: .15em; text-transform: uppercase;
+  color: var(--color-gold); font-weight: 600; margin-bottom: var(--space-4);
+}
+.events-badge img { width: 28px; height: 28px; }
+.events-title {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  color: #f0ead8;
+  margin-bottom: var(--space-3);
+}
+.events-subtitle {
+  font-size: var(--text-sm);
+  color: rgba(240,234,216,.5);
+  font-weight: 300;
+  margin-bottom: var(--space-3);
+}
+.events-month {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  color: var(--color-gold);
+  margin-bottom: var(--space-10);
+  font-weight: 400;
+}
+/* двухколоночная сетка событий */
+.events-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 var(--space-8);
+}
+.event-row {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: var(--space-4);
+  padding: var(--space-6) 0;
+  border-bottom: 1px solid rgba(240,234,216,.1);
+  align-items: start;
+}
+.event-row:last-child { border-bottom: none; }
+.event-date-num {
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
+  font-family: var(--font-display);
+  color: #f0ead8;
+  line-height: 1;
+  font-weight: 400;
+}
+.event-date-day {
+  font-size: var(--text-xs);
+  color: rgba(240,234,216,.45);
+  margin-top: var(--space-1);
+  letter-spacing: .04em;
+}
+.event-name {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  color: #f0ead8;
+  margin-bottom: var(--space-2);
+  line-height: 1.3;
+  font-weight: 400;
+}
+.event-performers {
+  font-size: var(--text-xs);
+  color: rgba(240,234,216,.55);
+  line-height: 1.65;
+  font-weight: 300;
+  margin-bottom: var(--space-3);
+}
+.event-buy {
+  display: inline-block;
+  font-size: var(--text-xs);
+  color: var(--color-gold);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  font-weight: 400;
+  transition: color var(--transition);
+}
+.event-buy:hover { color: #fff; }
+
+@media(max-width: 700px) {
+  .events-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<div class="site-wrapper">
+
+<!-- HEADER -->
+<header class="site-header" id="site-header">
+  <nav class="nav-links">
+    <a href="#about">О нас</a>
+    <a href="#menu">Меню</a>
+    <a href="#events">Афиша</a>
+    <a href="#contacts">Контакты</a>
+  </nav>
+  <div class="logo-header">
+    <img src="./img/Logo-header.svg" alt="Кафе У клуба" width="160" height="46">
+  </div>
+  <div class="header-info">
+    <span>Пн–пт 10:00–18:00</span>
+    <span>Бабушкин взвоз, 1в</span>
+    <a href="tel:+78452768686" class="header-phone">8 (8452) 76-86-86</a>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg" role="img" aria-label="Интерьер кафе У клуба"></div>
+  <div class="hero-content">
+    <img class="hero-logo-img" src="./img/Logo-hero.svg" alt="Кафе У клуба" width="600" height="260" loading="eager">
+    <p class="hero-tagline">Знакомые с детства вкусы в современной подаче,&nbsp;тёплая атмосфера и панорамный вид на Волгу</p>
+    <div class="hero-actions">
+      <a href="#contacts" class="btn-gold">Забронировать стол</a>
+      <a href="#menu" class="btn-outline-white">Меню</a>
+    </div>
+  </div>
+  <div class="hero-scroll-hint" aria-hidden="true">
+    <svg width="16" height="24" viewBox="0 0 16 24" fill="none" stroke="currentColor" stroke-width="1.5">
+      <rect x="1" y="1" width="14" height="22" rx="7"/><line x1="8" y1="5" x2="8" y2="10"/>
+    </svg>
+    Листайте вниз
+  </div>
+</section>
+
+<!-- ======================================================
+     ABOUT — текст по центру + тарелка выступает вниз
+     Нижняя половина тарелки перекрыта тикером (overflow:hidden + отрицательный margin)
+     ====================================================== -->
+<section class="about-section" id="about">
+  <div class="about-inner">
+    <div class="about-badge">
+      <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="32" height="32">
+        <rect x="2" y="2" width="28" height="28" rx="5" stroke="currentColor" stroke-width="1.4"/>
+        <rect x="6" y="6" width="20" height="20" rx="3" stroke="currentColor" stroke-width="1.1"/>
+        <line x1="11" y1="16" x2="21" y2="16" stroke="currentColor" stroke-width="1.5"/>
+        <line x1="16" y1="11" x2="16" y2="21" stroke="currentColor" stroke-width="1.5"/>
+      </svg>
+      О нас
+    </div>
+    <h2 class="about-title">Городское кафе на Набережной Космонавтов,<br>где любимые с детства вкусы встречаются<br>с современным стилем и сервисом</h2>
+    <p class="about-text">Здесь приходят за простой и понятной едой «как дома», светлой атмосферой и видом на Волгу.<br>Вечером — живая музыка и камерные события, создающие место, куда приятно возвращаться.</p>
+    <div class="about-tagline">тут продолжаются истории</div>
+  </div>
+  <div class="about-plate-wrap">
+    <img
+      src="./img/plate.png"
+      alt="Авторское блюдо кафе У клуба"
+      class="about-plate-img"
+      width="600" height="600"
+      loading="lazy"
+      onerror="this.src='https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=700&q=80'"
+    >
+  </div>
+</section>
+
+<!-- TICKER — z-index:10, перекрывает нижнюю половину тарелки -->
+<div class="ticker-strip" aria-hidden="true">
+  <div class="ticker-track">
+    <span class="ticker-item">
+      <img src="./img/icon-2.svg" alt="" class="ticker-icon">
+      Приходите попробовать наше новое меню
+    </span>
+    <span class="ticker-item">
+      <img src="./img/icon-3.svg" alt="" class="ticker-icon">
+      Живая музыка и джазовые вечера каждую неделю
+    </span>
+    <span class="ticker-item">
+      <img src="./img/icon-4.svg" alt="" class="ticker-icon">
+      Уютная атмосфера с видом на Волгу
+    </span>
+    <span class="ticker-item">
+      <img src="./img/icon-2.svg" alt="" class="ticker-icon">
+      Приходите попробовать наше новое меню
+    </span>
+    <span class="ticker-item">
+      <img src="./img/icon-3.svg" alt="" class="ticker-icon">
+      Живая музыка и джазовые вечера каждую неделю
+    </span>
+    <span class="ticker-item">
+      <img src="./img/icon-4.svg" alt="" class="ticker-icon">
+      Уютная атмосфера с видом на Волгу
+    </span>
+  </div>
+</div>
+
+<!-- OUR SPACE -->
+<section class="space-section" id="space">
+  <div class="space-bg" role="img" aria-label="Барная стойка кафе У клуба"></div>
+  <div class="space-card">
+    <div class="space-card-label">Наше пространство</div>
+    <h2 class="space-card-title">
+      Кафе «У клуба» гармонично сочетает просторный и светлый зал для встреч в приятной компании
+      и камерную арт-зону для джазовых вечеров и творческих событий.
+    </h2>
+    <div class="space-nav">
+      <button class="space-nav-btn" aria-label="Назад">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <button class="space-nav-btn" aria-label="Вперёд">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- MENU -->
+<section class="menu-section" id="menu">
+  <div class="section-header">
+    <h2 class="section-title">Попробуйте наши хиты</h2>
+    <p class="section-sub">Попробуйте наши блюда, чтобы вернуться снова</p>
+  </div>
+  <div class="filter-tabs" role="tablist">
+    <button class="filter-tab active" data-cat="all"      role="tab" aria-selected="true" >Закуски</button>
+    <button class="filter-tab"        data-cat="kruassan" role="tab" aria-selected="false">Круассаны</button>
+    <button class="filter-tab"        data-cat="blinchiki"role="tab" aria-selected="false">Блинчики</button>
+    <button class="filter-tab"        data-cat="salaty"   role="tab" aria-selected="false">Салаты</button>
+    <button class="filter-tab"        data-cat="goryachee"role="tab" aria-selected="false">Горячее</button>
+    <!-- перенос строки — flex-wrap сделает это автоматически -->
+    <div style="flex-basis:100%;height:0"></div>
+    <button class="filter-tab"        data-cat="supy"     role="tab" aria-selected="false">Супы</button>
+    <button class="filter-tab"        data-cat="garniры"  role="tab" aria-selected="false">Гарниры</button>
+    <button class="filter-tab"        data-cat="hleb"     role="tab" aria-selected="false">Хлеб</button>
+    <button class="filter-tab"        data-cat="sousy"    role="tab" aria-selected="false">Соусы</button>
+    <button class="filter-tab"        data-cat="deserty"  role="tab" aria-selected="false">Десерты</button>
+    <span class="filter-tab-decorative" aria-hidden="true">очень вкусно</span>
+  </div>
+  <div class="products-grid" id="productsGrid"></div>
+</section>
+
+<!-- ======================================================
+     SLIDER — после menu-section
+     ====================================================== -->
+<section class="slider-section" aria-label="Фотогалерея кафе">
+  <div class="slider-track">
+    <img class="slide-img" src="./img/slider/1.jpg" alt="Фото 1" width="340" height="260" loading="lazy">
+    <img class="slide-img" src="./img/slider/2.jpg" alt="Фото 2" width="340" height="260" loading="lazy">
+    <img class="slide-img" src="./img/slider/3.jpg" alt="Фото 3" width="340" height="260" loading="lazy">
+    <img class="slide-img" src="./img/slider/4.jpg" alt="Фото 4" width="340" height="260" loading="lazy">
+    <img class="slide-img" src="./img/slider/5.jpg" alt="Фото 5" width="340" height="260" loading="lazy">
+    <!-- дубли для бесшовного лупа -->
+    <img class="slide-img" src="./img/slider/1.jpg" alt="Фото 1" width="340" height="260" loading="lazy">
+    <img class="slide-img" src="./img/slider/2.jpg" alt="Фото 2" width="340" height="260" loading="lazy">
+    <img class="slide-img" src="./img/slider/3.jpg" alt="Фото 3" width="340" height="260" loading="lazy">
+    <img class="slide-img" src="./img/slider/4.jpg" alt="Фото 4" width="340" height="260" loading="lazy">
+    <img class="slide-img" src="./img/slider/5.jpg" alt="Фото 5" width="340" height="260" loading="lazy">
+  </div>
+
+<!-- ======================================================
+     АФИША — после slider-section
+     ====================================================== -->
+<section class="events-section" id="events">
+  <div class="events-inner">
+    <div class="events-badge">
+      <img src="./img/icon-Poster.svg" alt="" width="28" height="28">
+      Афиша
+    </div>
+    <h2 class="events-title">Афиша событий</h2>
+    <p class="events-subtitle">В арт-зоне проходят камерные концерты, джазовые вечера и творческие встречи.</p>
+    <div class="events-month">Апрель 2026</div>
+
+    <div class="events-grid">
+
+      <!-- Левая колонка -->
+      <div>
+        <div class="event-row">
+          <div>
+            <div class="event-date-num">02</div>
+            <div class="event-date-day">чт, 19:00</div>
+          </div>
+          <div>
+            <div class="event-name">Вечер джаза: Дудкин, Лихачев, Скиданов</div>
+            <div class="event-performers">
+              Николай Дудкин (саксофон)<br>
+              Илья Лихачев (рояль)<br>
+              Дмитрий Скиданов (контрабас)
+            </div>
+            <a href="#" class="event-buy">Купить билет</a>
+          </div>
+        </div>
+
+        <div class="event-row">
+          <div>
+            <div class="event-date-num">10</div>
+            <div class="event-date-day">пт, 19:00</div>
+          </div>
+          <div>
+            <div class="event-name">Дарья Самойлова - весна в стиле соул</div>
+            <div class="event-performers">
+              Дарья Самойлова (вокал)<br>
+              Илья Лихачев (рояль)<br>
+              Роман Дмитриев (бас)<br>
+              Арсений Некрасов (ударные)
+            </div>
+            <a href="#" class="event-buy">Купить билет</a>
+          </div>
+        </div>
+
+        <div class="event-row">
+          <div>
+            <div class="event-date-num">15</div>
+            <div class="event-date-day">ср, 19:00</div>
+          </div>
+          <div>
+            <div class="event-name">Ретро-интервью - открытая запись</div>
+            <div class="event-performers">Ведущие — Мария Карманова, Ирина Вейсман</div>
+            <a href="#" class="event-buy">Купить билет</a>
+          </div>
+        </div>
+
+        <div class="event-row">
+          <div>
+            <div class="event-date-num">16</div>
+            <div class="event-date-day">чт, 19:00</div>
+          </div>
+          <div>
+            <div class="event-name">Павел Ершов. Mainstream Jazz Guitar</div>
+            <div class="event-performers">
+              Гитарист Павел Ершов (г.Москва)<br>
+              Джазовое трио
+            </div>
+            <a href="#" class="event-buy">Купить билет</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Правая колонка -->
+      <div>
+        <div class="event-row">
+          <div>
+            <div class="event-date-num">17</div>
+            <div class="event-date-day">пт, 19:00</div>
+          </div>
+          <div>
+            <div class="event-name">Вечер в ритмах latino</div>
+            <div class="event-performers">
+              Александра Башкирова (вокал)<br>
+              Вадим Погориляк (ударные)<br>
+              Руслан Гаджиев (гитара)
+            </div>
+            <a href="#" class="event-buy">Купить билет</a>
+          </div>
+        </div>
+
+        <div class="event-row">
+          <div>
+            <div class="event-date-num">23</div>
+            <div class="event-date-day">чт, 19:00</div>
+          </div>
+          <div>
+            <div class="event-name">Марат Латоян. Джаз-квартет</div>
+            <div class="event-performers">
+              Марат Латоян (саксофон)<br>
+              Роман Дмитриев (контрабас)<br>
+              Илья Лихачев (рояль)<br>
+              Марат Косарев (ударные)
+            </div>
+            <a href="#" class="event-buy">Купить билет</a>
+          </div>
+        </div>
+
+        <div class="event-row">
+          <div>
+            <div class="event-date-num">29</div>
+            <div class="event-date-day">пт, 19:00</div>
+          </div>
+          <div>
+            <div class="event-name">Ретро-квартирник. Вечер третий. 1980-е</div>
+            <div class="event-performers">Мария Карманова, Ирина Вейсман</div>
+            <a href="#" class="event-buy">Купить билет</a>
+          </div>
+        </div>
+
+        <div class="event-row">
+          <div>
+            <div class="event-date-num">30</div>
+            <div class="event-date-day">чт, 19:00</div>
+          </div>
+          <div>
+            <div class="event-name">Balls Of Fire - Rock-n-Roll</div>
+            <div class="event-performers">Трио Александра Блонского</div>
+            <a href="#" class="event-buy">Купить билет</a>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /events-grid -->
+  </div><!-- /events-inner -->
+</section>
+
+
+<!-- CLOSING -->
+<section class="closing-section" id="contacts">
+  <div class="closing-bg" role="img" aria-label="Панорамный вид из кафе"></div>
+  <div class="closing-content">
+    <h2 class="closing-title">Мы всегда на связи</h2>
+    <p class="closing-sub">Позвоните, чтобы забронировать стол или задать любой вопрос.</p>
+    <a href="tel:+79999999999" class="btn-gold" style="font-size:var(--text-lg);padding:var(--space-4) var(--space-10);">
+      +7 (999) 999-99-99
+    </a>
+    <div class="closing-details">
+      <div class="closing-item"><strong>Телефон</strong>+7 (999) 999-99-99</div>
+      <div class="closing-item"><strong>Адрес</strong>Бабушкин взвоз, 1в</div>
+      <div class="closing-item">
+        <strong>Telegram</strong>
+        <a href="#" style="color:rgba(255,255,255,.75)">Следите за новостями и афишей в нашем Telegram-канале</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="footer-top">
+    <div class="footer-logo">
+      <span class="footer-logo-kafe">Кафе</span>
+      <span class="footer-logo-name">У клуба</span>
+    </div>
+    <nav class="footer-nav" aria-label="Навигация">
+      <a href="#home">Главная</a>
+      <a href="#about">О нас</a>
+      <a href="#menu">Меню</a>
+      <a href="#events">Афиша</a>
+      <a href="#contacts">Контакты</a>
+    </nav>
+  </div>
+  <div class="footer-contacts">
+    <h2 class="footer-contacts-title">Мы всегда на связи</h2>
+    <p class="footer-contacts-sub">Позвоните, чтобы забронировать стол или задать любой вопрос.</p>
+    <div class="footer-contacts-grid">
+      <div>
+        <div class="footer-col-label">Телефон:</div>
+        <div class="footer-col-value">+7 (8452) 76-86-86</div>
+      </div>
+      <div>
+        <div class="footer-col-label">Адрес:</div>
+        <div class="footer-col-value">Бабушкин взвоз, 1в</div>
+      </div>
+      <div>
+        <div class="footer-col-label">Telegram:</div>
+        <p class="footer-col-note">Следите за новостями и афишей в нашем</p>
+        <a href="#" class="footer-telegram-link">Telegram-канале</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 У клуба. Все права защищены</span>
+    <a href="#">Политика конфиденциальности</a>
+  </div>
+</footer>
+
+<!-- ЯНДЕКС КАРТА -->
+<div class="map-section" id="map">
+  <iframe
+    src="https://yandex.ru/map-widget/v1/?ll=46.034000%2C51.529000&z=16&pt=46.034000,51.529000,pm2rdm&text=%D0%91%D0%B0%D0%B1%D1%83%D1%88%D0%BA%D0%B8%D0%BD+%D0%B2%D0%B7%D0%B2%D0%BE%D0%B7+1%D0%B2+%D0%A1%D0%B0%D1%80%D0%B0%D1%82%D0%BE%D0%B2"
+    allowfullscreen title="Карта расположения кафе У клуба" loading="lazy">
+  </iframe>
+</div>
+
+</div><!-- /site-wrapper -->
+
+<script>
+// Sticky header
+const hdr = document.getElementById('site-header');
+window.addEventListener('scroll', () => hdr.classList.toggle('scrolled', window.scrollY > 60), {passive:true});
+
+// Products
+const products = [
+  {name:'Овсяная каша на молоке',          meta:'250 г [112 ккал]',       price:'220 р.', cat:'zakuski',   img:'./img/product-card/photo-1.jpg'},
+  {name:'Овсяная каша на кокосовом молоке',meta:'250 г [98/93 ккал]',     price:'270 р.', cat:'zakuski',   img:'./img/product-card/photo-2.jpg'},
+  {name:'Болтунья с куриным филе и тостом',meta:'230 г [319 ккал]',       price:'350 р.', cat:'goryachee', img:'./img/product-card/photo-3.jpg'},
+  {name:'Глазунья с беконом и тостом',     meta:'180 г [254 ккал]',       price:'270 р.', cat:'goryachee', img:'./img/product-card/photo-4.jpg'},
+  {name:'Куриный паштет с вишнёвым соусом',meta:'120/20/90 г [526,5 ккал]',price:'350 р.',cat:'zakuski',   img:'./img/product-card/photo-5.jpg'},
+  {name:'Вареники с вишней',               meta:'9 шт [458 ккал]',        price:'350 р.', cat:'blinchiki', img:'./img/product-card/photo-1.jpg'},
+  {name:'Круассан с лососем',              meta:'180 г [390 ккал]',       price:'380 р.', cat:'kruassan',  img:'./img/product-card/photo-2.jpg'},
+  {name:'Салат с тунцом',                  meta:'220 г [280 ккал]',       price:'420 р.', cat:'salaty',    img:'./img/product-card/photo-3.jpg'},
+  {name:'Медовик',                         meta:'150 г [480 ккал]',       price:'290 р.', cat:'deserty',   img:'./img/product-card/photo-4.jpg'},
+];
+
+const grid = document.getElementById('productsGrid');
+const tabs = document.querySelectorAll('.filter-tab');
+
+function renderProducts(cat) {
+  const items = cat === 'all' ? products : products.filter(p => p.cat === cat);
+  grid.innerHTML = items.map(p => `
+    <article class="product-card">
+      <div class="product-img-wrap">
+        <img src="${p.img}" alt="${p.name}" width="400" height="300" loading="lazy">
+      </div>
+      <div class="product-body">
+        <div class="product-name">${p.name}</div>
+        <div class="product-meta">${p.meta}</div>
+        <div class="product-price">${p.price}</div>
+      </div>
+    </article>`).join('');
+}
+
+tabs.forEach(tab => {
+  tab.addEventListener('click', () => {
+    tabs.forEach(t => {t.classList.remove('active');t.setAttribute('aria-selected','false')});
+    tab.classList.add('active'); tab.setAttribute('aria-selected','true');
+    renderProducts(tab.dataset.cat);
+  });
+});
+renderProducts('all');
+</script>
+</body>
+</html>
