@@ -199,7 +199,7 @@ h1, h2, h3 {
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
-body{font-family:var(--font-body);font-size:var(--text-base);color:var(--color-text);background:var(--color-bg);overflow-x:hidden}
+body{font-family:var(--font-body);font-size:var(--text-base);color:var(--color-text);background:#68615f;overflow-x:hidden}
 img{display:block;max-width:100%;height:auto}
 ul{list-style:none}
 button{cursor:pointer;background:none;border:none;font:inherit}
@@ -217,23 +217,43 @@ a,button{transition:color var(--transition),background var(--transition),opacity
 
 /* === HEADER === */
 .site-header{
-  position:fixed;top:0;left:50%;transform:translateX(-50%);
-  width:100%;max-width:var(--site-max);z-index:100;
-  display:flex;align-items:center;justify-content:space-between;
+  position:absolute;
+  top:0;
+  left:50%;
+  transform:translateX(-50%);
+  width:100%;
+  max-width:var(--site-max);
+  z-index:100;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
   padding:var(--space-4) var(--space-8);
-  transition:background var(--transition),padding var(--transition);
-}
-.site-header.scrolled{
-  background:rgba(26,21,16,.92);backdrop-filter:blur(14px);
-  padding:var(--space-3) var(--space-8);
+  background:transparent;
+  border-bottom:1px solid rgba(255,255,255,.16);
 }
 .nav-links{display:flex;gap:var(--space-8)}
 .nav-links a{font-size:var(--text-sm);font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.85)}
 .nav-links a:hover{color:#fff}
-.header-info{display:flex;align-items:center;gap:var(--space-6);font-size:var(--text-xs);color:rgba(255,255,255,.7)}
-.header-phone{font-weight:600;color:rgba(255,255,255,.9)}
-.logo-header{position:absolute;left:50%;transform:translateX(-50%);display:flex;align-items:center}
-.logo-header img{height:46px;width:auto}
+
+.header-info{
+  display:flex;
+  align-items:center;
+  gap:var(--space-6);
+  font-size:var(--text-xs);
+  color:rgba(255,255,255,.72);
+}
+
+.header-phone{font-weight:600;color:rgba(255,255,255,.92)}
+
+.logo-header{
+  position:absolute;
+  left:50%;
+  transform:translateX(-50%);
+  display:flex;
+  align-items:center;
+}
+
+.logo-header img{height:70px;width:auto;margin-top: 30px;}
 
 /* === HERO === */
 .hero{
@@ -461,7 +481,7 @@ a,button{transition:color var(--transition),background var(--transition),opacity
   position:absolute;inset:0;
   background:url('./img/closing-block.jpg') center/cover no-repeat;
 }
-.closing-bg::after{content:'';position:absolute;inset:0;background:rgba(15,10,5,.62)}
+.closing-bg::after{content:'';position:absolute;inset:0;}
 .closing-content{position:relative;z-index:1;padding:var(--space-8)}
 .closing-title{font-family:var(--font-display);font-size:var(--text-2xl);color:#fff;margin-bottom:var(--space-4);font-style:italic}
 .closing-sub{color:rgba(255,255,255,.75);font-size:var(--text-base);font-weight:300;margin-bottom:var(--space-8)}
@@ -588,6 +608,154 @@ a,button{transition:color var(--transition),background var(--transition),opacity
 @media(max-width: 700px) {
   .events-grid { grid-template-columns: 1fr; }
 }
+
+/* ,,, */
+.mobile-menu-toggle{
+  display:none;
+  width:44px;
+  height:44px;
+  position:absolute;
+  right:var(--space-4);
+  top:20%;
+  transform:translateY(-50%);
+  z-index:120;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  gap:5px;
+  border-radius:var(--radius-sm);
+  background:rgba(255,255,255,.08);
+  backdrop-filter:blur(8px);
+}
+
+.mobile-menu-toggle span{
+  display:block;
+  width:20px;
+  height:2px;
+  background:#fff;
+  transition:transform var(--transition), opacity var(--transition);
+}
+
+.mobile-menu-overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(20, 12, 8, .45);
+  opacity:0;
+  visibility:hidden;
+  pointer-events:none;
+  transition:opacity var(--transition), visibility var(--transition);
+  z-index:140;
+}
+
+.mobile-menu{
+  position:fixed;
+  top:0;
+  right:0;
+  width:min(78vw, 320px);
+  height:100dvh;
+  background:#7c4a36;
+  color:#fff;
+  transform:translateX(100%);
+  transition:transform .32s cubic-bezier(0.16,1,0.3,1);
+  z-index:150;
+  display:flex;
+  flex-direction:column;
+  box-shadow:-12px 0 32px rgba(0,0,0,.22);
+}
+
+.mobile-menu.is-open{
+  transform:translateX(0);
+}
+
+.mobile-menu-overlay.is-open{
+  opacity:1;
+  visibility:visible;
+  pointer-events:auto;
+}
+
+.mobile-menu-close{
+  position:absolute;
+  top:18px;
+  right:18px;
+  width:40px;
+  height:40px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#fff;
+  font-size:28px;
+  line-height:1;
+}
+
+.mobile-menu-inner{
+  height:100%;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  padding:72px 28px 28px;
+}
+
+.mobile-menu-nav{
+  display:flex;
+  flex-direction:column;
+  gap:18px;
+}
+
+.mobile-menu-nav a{
+  color:#fff;
+  font-size:var(--text-base);
+  font-weight:400;
+}
+
+.mobile-menu-bottom{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
+
+.mobile-menu-address{
+  color:#f4d59e;
+  font-size:var(--text-sm);
+  text-decoration:underline;
+  text-underline-offset:4px;
+}
+
+.mobile-menu-phone{
+  color:#f4d59e;
+  font-size:clamp(1.05rem, 2vw, 1.25rem);
+  text-decoration:underline;
+  text-underline-offset:4px;
+}
+
+body.menu-open{
+  overflow:hidden;
+}
+
+@media(max-width:900px){
+  .nav-links,
+  .header-info{
+    display:none;
+  }
+
+  .mobile-menu-toggle{
+    display:flex;
+  }
+
+  .site-header{
+    padding-right:calc(var(--space-4) + 52px);
+    margin-top: 20px;
+  }
+
+  .logo-header{
+    left:var(--space-4);
+    transform:none;
+  }
+
+  .logo-header img{
+    height:40px;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -604,12 +772,39 @@ a,button{transition:color var(--transition),background var(--transition),opacity
   <div class="logo-header">
     <img src="./img/Logo-header.svg" alt="Кафе У клуба" width="160" height="46">
   </div>
+  <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Открыть меню" aria-expanded="false">
+  <span></span>
+  <span></span>
+  <span></span>
+  </button>
   <div class="header-info">
     <span>Пн–вс 10:00–23:00</span>
-    <span>Бабушкин взвоз, 1в</span>
+    <a href="https://yandex.ru/maps/194/saratov/house/ulitsa_babushkin_vzvoz_1v/YE8YdgRoSk0OQFtrfXlzc3VkbA==/?ll=46.039352%2C51.523039&utm_source=share&z=18.8" class="header-phone">Бабушкин взвоз, 1в</a>
     <a href="tel:+78452768686" class="header-phone">8 (8452) 76-86-86</a>
   </div>
 </header>
+<div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
+
+<aside class="mobile-menu" id="mobileMenu" aria-hidden="true">
+  <button class="mobile-menu-close" id="mobileMenuClose" aria-label="Закрыть меню">
+    ✕
+  </button>
+
+  <div class="mobile-menu-inner">
+    <nav class="mobile-menu-nav" aria-label="Мобильная навигация">
+      <a href="#home">Главная</a>
+      <a href="#about">О нас</a>
+      <a href="#menu">Меню</a>
+      <a href="#events">Афиша</a>
+      <a href="#contacts">Контакты</a>
+    </nav>
+
+    <div class="mobile-menu-bottom">
+      <div class="mobile-menu-address">Бабушкин взвоз, 1в</div>
+      <a href="tel:+78452768686" class="mobile-menu-phone">8 (8452) 76-86-86</a>
+    </div>
+  </div>
+</aside>
 
 <!-- HERO -->
 <section class="hero" id="home">
@@ -931,7 +1126,7 @@ a,button{transition:color var(--transition),background var(--transition),opacity
       <div>
         <div class="footer-col-label">Telegram:</div>
         <p class="footer-col-note">Следите за новостями и афишей в нашем</p>
-        <a href="#" class="footer-telegram-link">Telegram-канале</a>
+        <a href="https://t.me/cafeucluba" class="footer-telegram-link">Telegram-канале</a>
       </div>
     </div>
   </div>
@@ -942,25 +1137,37 @@ a,button{transition:color var(--transition),background var(--transition),opacity
 </footer>
 
 <!-- ЯНДЕКС КАРТА -->
-<div class="map-section" id="map">
-  <iframe
-    src="https://yandex.ru/map-widget/v1/?ll=46.034000%2C51.529000&z=16&pt=46.034000,51.529000,pm2rdm&text=%D0%91%D0%B0%D0%B1%D1%83%D1%88%D0%BA%D0%B8%D0%BD+%D0%B2%D0%B7%D0%B2%D0%BE%D0%B7+1%D0%B2+%D0%A1%D0%B0%D1%80%D0%B0%D1%82%D0%BE%D0%B2"
-    allowfullscreen title="Карта расположения кафе У клуба" loading="lazy">
-  </iframe>
-</div>
+<div id="map" style="width:100%;height:400px"></div>
+<script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
+<script>
+ymaps.ready(function () {
+  const map = new ymaps.Map('map', {
+    center: [51.522978, 46.038389],
+    zoom: 18,
+    controls: ['zoomControl']
+  });
+
+  const placemark = new ymaps.Placemark([51.522978, 46.038389], {
+    balloonContent: 'Кафе «У клуба»'
+  });
+
+  map.geoObjects.add(placemark);
+});
+</script>
 
 </div><!-- /site-wrapper -->
 
 <script>
+  
 // Sticky header
-const hdr = document.getElementById('site-header');
-if (hdr) {
-  window.addEventListener(
-    'scroll',
-    () => hdr.classList.toggle('scrolled', window.scrollY > 60),
-    { passive: true }
-  );
-}
+// const hdr = document.getElementById('site-header');
+// if (hdr) {
+//   window.addEventListener(
+//     'scroll',
+//     () => hdr.classList.toggle('scrolled', window.scrollY > 60),
+//     { passive: true }
+//   );
+// }
 
 // Products
 const products = [
@@ -1046,6 +1253,42 @@ if (spaceBg && spaceNavBtns.length >= 2) {
 
   updateSpaceBg();
 }
+
+const mobileMenu = document.getElementById('mobileMenu');
+const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
+const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+const mobileMenuClose = document.getElementById('mobileMenuClose');
+const mobileMenuLinks = document.querySelectorAll('.mobile-menu a');
+
+function openMobileMenu() {
+  if (!mobileMenu || !mobileMenuOverlay) return;
+  mobileMenu.classList.add('is-open');
+  mobileMenuOverlay.classList.add('is-open');
+  document.body.classList.add('menu-open');
+  mobileMenu.setAttribute('aria-hidden', 'false');
+  mobileMenuToggle?.setAttribute('aria-expanded', 'true');
+}
+
+function closeMobileMenu() {
+  if (!mobileMenu || !mobileMenuOverlay) return;
+  mobileMenu.classList.remove('is-open');
+  mobileMenuOverlay.classList.remove('is-open');
+  document.body.classList.remove('menu-open');
+  mobileMenu.setAttribute('aria-hidden', 'true');
+  mobileMenuToggle?.setAttribute('aria-expanded', 'false');
+}
+
+mobileMenuToggle?.addEventListener('click', openMobileMenu);
+mobileMenuClose?.addEventListener('click', closeMobileMenu);
+mobileMenuOverlay?.addEventListener('click', closeMobileMenu);
+
+mobileMenuLinks.forEach(link => {
+  link.addEventListener('click', closeMobileMenu);
+});
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeMobileMenu();
+});
 </script>
 </body>
 </html>
