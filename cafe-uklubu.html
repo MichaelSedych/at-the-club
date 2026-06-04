@@ -247,7 +247,6 @@ a,button{transition:color var(--transition),background var(--transition),opacity
 }
 .hero-bg::after{
   content:'';position:absolute;inset:0;
-  background:linear-gradient(to bottom,rgba(15,10,5,.5) 0%,rgba(15,10,5,.35) 50%,rgba(15,10,5,.68) 100%);
 }
 .hero-content{position:relative;z-index:1;padding:var(--space-8)}
 .hero-logo-img{max-height:clamp(120px,22vw,260px);width:auto;margin:0 auto var(--space-8)}
@@ -335,12 +334,16 @@ a,button{transition:color var(--transition),background var(--transition),opacity
   display:flex;align-items:center;overflow:hidden;
 }
 .space-bg{
-  position:absolute;inset:0;
-  background:url('./img/Our-space-bg.jpg') center/cover no-repeat;
+  position: absolute;
+  inset: 0;
+  background-image: url('./img/Our-space-bg.jpg');
+  background-position: 50% center;
+  background-size: 115% auto;
+  background-repeat: no-repeat;
+  transition: background-position .35s ease;
 }
 .space-bg::after{
   content:'';position:absolute;inset:0;
-  background:linear-gradient(135deg,rgba(15,10,5,.72) 0%,rgba(15,10,5,.28) 100%);
 }
 .space-card{
   position:relative;z-index:1;
@@ -896,21 +899,6 @@ a,button{transition:color var(--transition),background var(--transition),opacity
 <!-- CLOSING -->
 <section class="closing-section" id="contacts">
   <div class="closing-bg" role="img" aria-label="Панорамный вид из кафе"></div>
-  <div class="closing-content">
-    <h2 class="closing-title">Мы всегда на связи</h2>
-    <p class="closing-sub">Позвоните, чтобы забронировать стол или задать любой вопрос.</p>
-    <a href="tel:+79999999999" class="btn-gold" style="font-size:var(--text-lg);padding:var(--space-4) var(--space-10);">
-      +7 (999) 999-99-99
-    </a>
-    <div class="closing-details">
-      <div class="closing-item"><strong>Телефон</strong>+7 (999) 999-99-99</div>
-      <div class="closing-item"><strong>Адрес</strong>Бабушкин взвоз, 1в</div>
-      <div class="closing-item">
-        <strong>Telegram</strong>
-        <a href="#" style="color:rgba(255,255,255,.75)">Следите за новостями и афишей в нашем Telegram-канале</a>
-      </div>
-    </div>
-  </div>
 </section>
 
 <!-- FOOTER -->
@@ -966,26 +954,37 @@ a,button{transition:color var(--transition),background var(--transition),opacity
 <script>
 // Sticky header
 const hdr = document.getElementById('site-header');
-window.addEventListener('scroll', () => hdr.classList.toggle('scrolled', window.scrollY > 60), {passive:true});
+if (hdr) {
+  window.addEventListener(
+    'scroll',
+    () => hdr.classList.toggle('scrolled', window.scrollY > 60),
+    { passive: true }
+  );
+}
 
 // Products
 const products = [
-  {name:'Овсяная каша на молоке',          meta:'250 г [112 ккал]',       price:'220 р.', cat:'zakuski',   img:'./img/product-card/photo-1.jpg'},
-  {name:'Овсяная каша на кокосовом молоке',meta:'250 г [98/93 ккал]',     price:'270 р.', cat:'zakuski',   img:'./img/product-card/photo-2.jpg'},
-  {name:'Болтунья с куриным филе и тостом',meta:'230 г [319 ккал]',       price:'350 р.', cat:'goryachee', img:'./img/product-card/photo-3.jpg'},
-  {name:'Глазунья с беконом и тостом',     meta:'180 г [254 ккал]',       price:'270 р.', cat:'goryachee', img:'./img/product-card/photo-4.jpg'},
-  {name:'Куриный паштет с вишнёвым соусом',meta:'120/20/90 г [526,5 ккал]',price:'350 р.',cat:'zakuski',   img:'./img/product-card/photo-5.jpg'},
-  {name:'Вареники с вишней',               meta:'9 шт [458 ккал]',        price:'350 р.', cat:'blinchiki', img:'./img/product-card/photo-1.jpg'},
-  {name:'Круассан с лососем',              meta:'180 г [390 ккал]',       price:'380 р.', cat:'kruassan',  img:'./img/product-card/photo-2.jpg'},
-  {name:'Салат с тунцом',                  meta:'220 г [280 ккал]',       price:'420 р.', cat:'salaty',    img:'./img/product-card/photo-3.jpg'},
-  {name:'Медовик',                         meta:'150 г [480 ккал]',       price:'290 р.', cat:'deserty',   img:'./img/product-card/photo-4.jpg'},
+  {name:'Овсяная каша на молоке',           meta:'250 г [112 ккал]',        price:'220 р.', cat:'zakuski',   img:'./img/product-card/photo-1.jpg'},
+  {name:'Овсяная каша на кокосовом молоке', meta:'250 г [98/93 ккал]',      price:'270 р.', cat:'zakuski',   img:'./img/product-card/photo-2.jpg'},
+  {name:'Болтунья с куриным филе и тостом', meta:'230 г [319 ккал]',        price:'350 р.', cat:'goryachee', img:'./img/product-card/photo-3.jpg'},
+  {name:'Глазунья с беконом и тостом',      meta:'180 г [254 ккал]',        price:'270 р.', cat:'goryachee', img:'./img/product-card/photo-4.jpg'},
+  {name:'Куриный паштет с вишнёвым соусом', meta:'120/20/90 г [526,5 ккал]',price:'350 р.', cat:'zakuski',   img:'./img/product-card/photo-5.jpg'},
+  {name:'Вареники с вишней',                meta:'9 шт [458 ккал]',         price:'350 р.', cat:'blinchiki', img:'./img/product-card/photo-1.jpg'},
+  {name:'Круассан с лососем',               meta:'180 г [390 ккал]',        price:'380 р.', cat:'kruassan',  img:'./img/product-card/photo-2.jpg'},
+  {name:'Салат с тунцом',                   meta:'220 г [280 ккал]',        price:'420 р.', cat:'salaty',    img:'./img/product-card/photo-3.jpg'},
+  {name:'Медовик',                          meta:'150 г [480 ккал]',        price:'290 р.', cat:'deserty',   img:'./img/product-card/photo-4.jpg'}
 ];
 
 const grid = document.getElementById('productsGrid');
 const tabs = document.querySelectorAll('.filter-tab');
 
 function renderProducts(cat) {
-  const items = cat === 'all' ? products : products.filter(p => p.cat === cat);
+  if (!grid) return;
+
+  const items = cat === 'all'
+    ? products
+    : products.filter(p => p.cat === cat);
+
   grid.innerHTML = items.map(p => `
     <article class="product-card">
       <div class="product-img-wrap">
@@ -996,17 +995,57 @@ function renderProducts(cat) {
         <div class="product-meta">${p.meta}</div>
         <div class="product-price">${p.price}</div>
       </div>
-    </article>`).join('');
+    </article>
+  `).join('');
 }
 
-tabs.forEach(tab => {
-  tab.addEventListener('click', () => {
-    tabs.forEach(t => {t.classList.remove('active');t.setAttribute('aria-selected','false')});
-    tab.classList.add('active'); tab.setAttribute('aria-selected','true');
-    renderProducts(tab.dataset.cat);
+if (grid && tabs.length) {
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => {
+        t.classList.remove('active');
+        t.setAttribute('aria-selected', 'false');
+      });
+
+      tab.classList.add('active');
+      tab.setAttribute('aria-selected', 'true');
+      renderProducts(tab.dataset.cat);
+    });
   });
-});
-renderProducts('all');
+
+  renderProducts('all');
+}
+
+// Space background slider
+const spaceBg = document.querySelector('.space-bg');
+const spaceNavBtns = document.querySelectorAll('.space-nav-btn');
+
+const spaceImages = [
+  './img/Our-space-bg.jpg',
+  './img/closing-block.jpg',
+  './img/header-hero-bg.jpg'
+];
+
+let currentSpaceImage = 0;
+
+function updateSpaceBg() {
+  if (!spaceBg) return;
+  spaceBg.style.backgroundImage = `url("${spaceImages[currentSpaceImage]}")`;
+}
+
+if (spaceBg && spaceNavBtns.length >= 2) {
+  spaceNavBtns[0].addEventListener('click', () => {
+    currentSpaceImage = (currentSpaceImage - 1 + spaceImages.length) % spaceImages.length;
+    updateSpaceBg();
+  });
+
+  spaceNavBtns[1].addEventListener('click', () => {
+    currentSpaceImage = (currentSpaceImage + 1) % spaceImages.length;
+    updateSpaceBg();
+  });
+
+  updateSpaceBg();
+}
 </script>
 </body>
 </html>
