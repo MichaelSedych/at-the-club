@@ -26,6 +26,19 @@
     src: url('https://static.tildacdn.com/fonts/TildaSans/TildaSans-Light.woff2') format('woff2');
     font-weight: 300; font-style: normal; font-display: swap;
   }
+  @font-face {
+    font-family: 'Old Soviet';
+    src: url('./fonts/Old-Soviet.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: 'Jikharev';
+    src: url('./fonts/jikharev.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
   /* Old Soviet — подключите свой файл, пока используем Russo One как замену */
   /* Jikharev — подключите свой файл, пока используем Cormorant Garamond Italic */
 
@@ -41,6 +54,12 @@ body { font-family: var(--font-body); }
 .event-date-num,
 .events-month,
 .section-title,
+.events-title,
+.events-month,
+.event-date-num,
+.event-date-day,
+.event-name,
+.space-card-label,
 h1, h2, h3 {
   font-family: var(--font-old-soviet);
   font-weight: 400;
@@ -93,7 +112,6 @@ h1, h2, h3 {
 .about-badge svg { flex-shrink: 0; }
 .about-title {
   font-family: var(--font-old-soviet);
-  font-size: clamp(1.3rem, 2.8vw, 2.2rem);
   font-weight: 400;
   letter-spacing: .03em;
   line-height: 1.35;
@@ -148,8 +166,8 @@ h1, h2, h3 {
 :root {
   --font-display: 'Cormorant Garamond', Georgia, serif;
   --font-body: 'Tilda Sans', 'Jost', 'Helvetica Neue', sans-serif;
-  --font-old-soviet: 'Russo One', 'Cormorant Garamond', Georgia, serif;
-  --font-jikharev: 'Cormorant Garamond', Georgia, serif; /* замените на Jikharev */
+  --font-old-soviet: 'Old Soviet', 'Cormorant Garamond', Georgia, serif;
+  --font-jikharev: 'Jikharev', 'Cormorant Garamond', Georgia, serif;
   --text-xs:   clamp(0.75rem,  0.7rem  + 0.25vw, 0.875rem);
   --text-sm:   clamp(0.875rem, 0.8rem  + 0.35vw, 1rem);
   --text-base: clamp(1rem,     0.95rem + 0.25vw, 1.125rem);
@@ -210,7 +228,7 @@ a,button{transition:color var(--transition),background var(--transition),opacity
   padding:var(--space-3) var(--space-8);
 }
 .nav-links{display:flex;gap:var(--space-8)}
-.nav-links a{font-size:var(--text-sm);letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.85)}
+.nav-links a{font-size:var(--text-sm);font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.85)}
 .nav-links a:hover{color:#fff}
 .header-info{display:flex;align-items:center;gap:var(--space-6);font-size:var(--text-xs);color:rgba(255,255,255,.7)}
 .header-phone{font-weight:600;color:rgba(255,255,255,.9)}
@@ -271,11 +289,15 @@ a,button{transition:color var(--transition),background var(--transition),opacity
 }
 .about-badge img{width:30px;height:30px}
 .about-title{
-  font-family:var(--font-display);font-size:var(--text-2xl);
   font-weight:500;line-height:1.25;margin-bottom:var(--space-6);
 }
 .about-text{color:var(--color-text-muted);line-height:1.8;font-weight:300;margin-bottom:var(--space-3)}
-.about-tagline{font-family:var(--font-display);font-style:italic;font-size:var(--text-lg);color:var(--color-primary);margin-top:var(--space-4)}
+.about-tagline{
+  font-family: var(--font-jikharev);
+  font-size:var(--text-lg);
+  color:var(--color-primary);
+  margin-top:var(--space-4);
+}
 
 /* Тарелка — по центру, выступает вниз за край секции */
 .plate-outer{
@@ -326,8 +348,8 @@ a,button{transition:color var(--transition),background var(--transition),opacity
   max-width:480px;padding:var(--space-10);border-radius:var(--radius-xl);
   margin-left:8%;box-shadow:var(--shadow-lg);
 }
-.space-card-label{font-size:var(--text-xs);letter-spacing:.15em;text-transform:uppercase;color:var(--color-primary);font-weight:600;margin-bottom:var(--space-4)}
-.space-card-title{font-family:var(--font-display);font-size:var(--text-xl);color:var(--color-text);margin-bottom:var(--space-4);line-height:1.3}
+.space-card-label{letter-spacing:.15em;text-transform:uppercase;color:var(--color-primary);font-weight:600;margin-bottom:var(--space-4)}
+.space-card-title{font-family:var(--font-display);color:var(--color-text);margin-bottom:var(--space-4);line-height:1.3}
 .space-nav{display:flex;gap:var(--space-2);margin-top:var(--space-6)}
 .space-nav-btn{width:40px;height:40px;border-radius:50%;border:1px solid var(--color-border);color:var(--color-text);display:flex;align-items:center;justify-content:center;transition:all var(--transition)}
 .space-nav-btn:hover{background:var(--color-primary);border-color:var(--color-primary);color:#fff}
@@ -412,7 +434,7 @@ a,button{transition:color var(--transition),background var(--transition),opacity
 .product-body{padding:var(--space-4) var(--space-5) var(--space-5)}
 .product-name{font-family:var(--font-display);font-size:var(--text-lg);font-weight:500;margin-bottom:var(--space-1);line-height:1.3}
 .product-meta{font-size:var(--text-xs);color:var(--color-text-faint);margin-bottom:var(--space-3)}
-.product-price{font-family: var(--font-display);font-size:var(--text-lg);font-weight:600;color:var(--color-primary)}
+.product-price{font-size:var(--text-lg);font-weight:600;color:var(--color-primary)}
 
 /* ============================================================
    SLIDER — ПОСЛЕ menu-section
@@ -423,7 +445,7 @@ a,button{transition:color var(--transition),background var(--transition),opacity
   animation:slide-anim 28s linear infinite;
 }
 .slider-track:hover{animation-play-state:paused}
-.slide-img{flex-shrink:0;width:316px;height:372px;object-fit:cover}
+.slide-img{flex-shrink:0;width:340px;height:260px;object-fit:cover}
 @keyframes slide-anim{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
 
 /* === CLOSING BLOCK === */
@@ -454,7 +476,7 @@ a,button{transition:color var(--transition),background var(--transition),opacity
 .footer-nav a{font-size:var(--text-sm);color:rgba(255,255,255,.75);font-weight:400;transition:color var(--transition)}
 .footer-nav a:hover{color:#fff}
 .footer-contacts{padding:var(--space-10) var(--space-10) var(--space-8);border-bottom:1px solid rgba(255,255,255,.08)}
-.footer-contacts-title{font-family:var(--font-display);font-size:clamp(1.3rem,2.5vw,1.9rem);color:var(--color-gold);font-weight:400;margin-bottom:var(--space-2);letter-spacing:.03em}
+.footer-contacts-title{font-family:var(--font-old-soviet);font-size:clamp(1.3rem,2.5vw,1.9rem);color:var(--color-gold);font-weight:400;margin-bottom:var(--space-2);letter-spacing:.03em}
 .footer-contacts-sub{font-size:var(--text-sm);color:rgba(255,255,255,.5);font-weight:300;margin-bottom:var(--space-8)}
 .footer-contacts-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--space-8);max-width:900px}
 .footer-col-label{font-size:var(--text-xs);color:rgba(255,255,255,.4);font-weight:400;margin-bottom:var(--space-2);letter-spacing:.05em}
@@ -496,8 +518,6 @@ a,button{transition:color var(--transition),background var(--transition),opacity
 }
 .events-badge img { width: 28px; height: 28px; }
 .events-title {
-  font-family: var(--font-display);
-  font-size: var(--text-2xl);
   color: #f0ead8;
   margin-bottom: var(--space-3);
 }
@@ -508,8 +528,6 @@ a,button{transition:color var(--transition),background var(--transition),opacity
   margin-bottom: var(--space-3);
 }
 .events-month {
-  font-family: var(--font-display);
-  font-size: var(--text-xl);
   color: var(--color-gold);
   margin-bottom: var(--space-10);
   font-weight: 400;
@@ -530,8 +548,6 @@ a,button{transition:color var(--transition),background var(--transition),opacity
 }
 .event-row:last-child { border-bottom: none; }
 .event-date-num {
-  font-size: clamp(1.75rem, 3vw, 2.5rem);
-  font-family: var(--font-display);
   color: #f0ead8;
   line-height: 1;
   font-weight: 400;
@@ -543,8 +559,6 @@ a,button{transition:color var(--transition),background var(--transition),opacity
   letter-spacing: .04em;
 }
 .event-name {
-  font-family: var(--font-display);
-  font-size: var(--text-lg);
   color: #f0ead8;
   margin-bottom: var(--space-2);
   line-height: 1.3;
@@ -588,7 +602,7 @@ a,button{transition:color var(--transition),background var(--transition),opacity
     <img src="./img/Logo-header.svg" alt="Кафе У клуба" width="160" height="46">
   </div>
   <div class="header-info">
-    <span>Пн–пт 10:00–18:00</span>
+    <span>Пн–вс 10:00–23:00</span>
     <span>Бабушкин взвоз, 1в</span>
     <a href="tel:+78452768686" class="header-phone">8 (8452) 76-86-86</a>
   </div>
@@ -602,7 +616,7 @@ a,button{transition:color var(--transition),background var(--transition),opacity
     <p class="hero-tagline">Знакомые с детства вкусы в современной подаче,&nbsp;тёплая атмосфера и панорамный вид на Волгу</p>
     <div class="hero-actions">
       <a href="#contacts" class="btn-gold">Забронировать стол</a>
-      <a href="#menu" class="btn-outline-white">Меню</a>
+      <a href="https://drive.google.com/file/d/1jIvp4nVV0c0thttj8FOPGU7XXY0dXJzQ/view" class="btn-outline-white">Меню</a>
     </div>
   </div>
   <div class="hero-scroll-hint" aria-hidden="true">
@@ -695,7 +709,7 @@ a,button{transition:color var(--transition),background var(--transition),opacity
 </section>
 
 <!-- MENU -->
-<section class="menu-section" id="menu">
+<!-- <section class="menu-section" id="menu">
   <div class="section-header">
     <h2 class="section-title">Попробуйте наши хиты</h2>
     <p class="section-sub">Попробуйте наши блюда, чтобы вернуться снова</p>
@@ -705,9 +719,9 @@ a,button{transition:color var(--transition),background var(--transition),opacity
     <button class="filter-tab"        data-cat="kruassan" role="tab" aria-selected="false">Круассаны</button>
     <button class="filter-tab"        data-cat="blinchiki"role="tab" aria-selected="false">Блинчики</button>
     <button class="filter-tab"        data-cat="salaty"   role="tab" aria-selected="false">Салаты</button>
-    <button class="filter-tab"        data-cat="goryachee"role="tab" aria-selected="false">Горячее</button>
+    <button class="filter-tab"        data-cat="goryachee"role="tab" aria-selected="false">Горячее</button> -->
     <!-- перенос строки — flex-wrap сделает это автоматически -->
-    <div style="flex-basis:100%;height:0"></div>
+    <!-- <div style="flex-basis:100%;height:0"></div>
     <button class="filter-tab"        data-cat="supy"     role="tab" aria-selected="false">Супы</button>
     <button class="filter-tab"        data-cat="garniры"  role="tab" aria-selected="false">Гарниры</button>
     <button class="filter-tab"        data-cat="hleb"     role="tab" aria-selected="false">Хлеб</button>
@@ -716,7 +730,7 @@ a,button{transition:color var(--transition),background var(--transition),opacity
     <span class="filter-tab-decorative" aria-hidden="true">очень вкусно</span>
   </div>
   <div class="products-grid" id="productsGrid"></div>
-</section>
+</section> -->
 
 <!-- ======================================================
      SLIDER — после menu-section
@@ -903,7 +917,8 @@ a,button{transition:color var(--transition),background var(--transition),opacity
 <footer class="site-footer">
   <div class="footer-top">
     <div class="footer-logo">
-      <img src="./img/Logo-hero.svg" alt="Кафе У клуба" width="121" height="64" loading="eager">
+      <span class="footer-logo-kafe">Кафе</span>
+      <span class="footer-logo-name">У клуба</span>
     </div>
     <nav class="footer-nav" aria-label="Навигация">
       <a href="#home">Главная</a>
